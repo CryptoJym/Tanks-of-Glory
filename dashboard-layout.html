@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tank Commander - Dashboard</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="js/vendor/three.min.js"></script>
+    <script src="js/tankViewer.js" defer></script>
+    <script src="js/dashboard.js" defer></script>
+</head>
+<body class="dashboard-page">
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <img src="assets/images/logo.png" alt="Tank Commander Logo" class="loading-logo">
+            <div class="loading-bar-container">
+                <div class="loading-bar" id="loadingBar"></div>
+            </div>
+            <div class="loading-tip" id="loadingTip">Tip: Heavy tanks have stronger armor but move slower.</div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="logo-container">
+            <img src="assets/images/logo.png" alt="Tank Commander Logo">
+        </div>
+        <nav class="top-nav">
+            <ul class="nav-list">
+                <li class="nav-item active"><a href="dashboard.html">Home</a></li>
+                <li class="nav-item"><a href="play.html">Play</a></li>
+                <li class="nav-item"><a href="garage.html">Garage</a></li>
+                <li class="nav-item"><a href="profile.html">Profile</a></li>
+                <li class="nav-item"><a href="store.html">Store</a></li>
+                <li class="nav-item"><a href="community.html">Community</a></li>
+                <li class="nav-item"><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+        <div class="user-info">
+            <div class="player-level">
+                <span class="level-number">15</span>
+                <div class="xp-bar">
+                    <div class="xp-fill" style="width: 65%;"></div>
+                </div>
+            </div>
+            <div class="currency-display">
+                <div class="credits">
+                    <img src="assets/icons/credits.png" alt="Credits">
+                    <span>15,450</span>
+                </div>
+                <div class="premium-currency">
+                    <img src="assets/icons/premium.png" alt="Premium">
+                    <span>250</span>
+                </div>
+            </div>
+            <div class="profile-pic">
+                <img src="assets/images/avatars/commander1.png" alt="Player Avatar">
+                <div class="notification-badge">3</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <section class="featured-content">
+            <div class="featured-carousel" id="featuredCarousel">
+                <div class="carousel-item active">
+                    <img src="assets/images/featured/season-update.jpg" alt="New Season Update">
+                    <div class="carousel-caption">
+                        <h2>Season 3: Desert Storm</h2>
+                        <p>New maps, tanks, and challenges await!</p>
+                        <button class="cta-button">Learn More</button>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="assets/images/featured/new-tank.jpg" alt="New Tank Available">
+                    <div class="carousel-caption">
+                        <h2>Introducing the Thunderbolt</h2>
+                        <p>The new premium heavy tank with devastating firepower</p>
+                        <button class="cta-button">View in Store</button>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="assets/images/featured/weekend-event.jpg" alt="Weekend Event">
+                    <div class="carousel-caption">
+                        <h2>Double XP Weekend</h2>
+                        <p>Earn twice the experience all weekend long!</p>
+                        <button class="cta-button">Join Now</button>
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <button class="prev-button" id="carouselPrev">&lt;</button>
+                    <div class="carousel-indicators">
+                        <span class="indicator active"></span>
+                        <span class="indicator"></span>
+                        <span class="indicator"></span>
+                    </div>
+                    <button class="next-button" id="carouselNext">&gt;</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="dashboard-grid">
+            <section class="quick-play panel">
+                <div class="panel-header">
+                    <h2>Quick Play</h2>
+                </div>
+                <div class="panel-content quick-play-options">
+                    <div class="play-option" data-mode="campaign">
+                        <img src="assets/icons/campaign.png" alt="Campaign">
+                        <span>Campaign</span>
+                        <div class="progress-indicator">8/20 Missions</div>
+                    </div>
+                    <div class="play-option" data-mode="multiplayer">
+                        <img src="assets/icons/multiplayer.png" alt="Multiplayer">
+                        <span>Multiplayer</span>
+                        <div class="new-content-badge">New Maps!</div>
+                    </div>
+                    <div class="play-option" data-mode="arcade">
+                        <img src="assets/icons/arcade.png" alt="Arcade">
+                        <span>Arcade</span>
+                    </div>
+                    <div class="play-option" data-mode="training">
+                        <img src="assets/icons/training.png" alt="Training">
+                        <span>Training</span>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="secondary-button" id="viewAllModes">View All Modes</button>
+                </div>
+            </section>
+
+            <section class="current-tank panel">
+                <div class="panel-header">
+                    <h2>Current Tank</h2>
+                    <button class="icon-button" id="changeTank">
+                        <img src="assets/icons/change.png" alt="Change">
+                    </button>
+                </div>
+                <div class="panel-content tank-display">
+                    <div class="tank-viewer" id="tankViewer">
+                        <!-- 3D tank model will render here via Three.js -->
+                    </div>
+                    <div class="tank-info">
+                        <h3 class="tank-name">M1A2 Abrams</h3>
+                        <div class="tank-class">
+                            <span class="class-icon heavy"></span>
+                            <span class="class-name">Heavy Tank</span>
+                        </div>
+                        <div class="tank-stats">
+                            <div class="stat-bar">
+                                <span class="stat-label">Firepower</span>
+                                <div class="stat-value-bar">
+                                    <div class="stat-fill" style="width: 85%;"></div>
+                                </div>
+                                <span class="stat-value">85</span>
+                            </div>
+                            <div class="stat-bar">
+                                <span class="stat-label">Armor</span>
+                                <div class="stat-value-bar">
+                                    <div class="stat-fill" style="width: 90%;"></div>
+                                </div>
+                                <span class="stat-value">90</span>
+                            </div>
+                            <div class="stat-bar">
+                                <span class="stat-label">Mobility</span>
+                                <div class="stat-value-bar">
+                                    <div class="stat-fill" style="width: 60%;"></div>
+                                </div>
+                                <span class="stat-value">60</span>
+                            </div>
+                            <div class="stat-bar">
+                                <span class="stat-label">Range</span>
+                                <div class="stat-value-bar">
+                                    <div class="stat-fill" style="width: 75%;"></div>
+                                </div>
+                                <span class="stat-value">75</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="secondary-button" id="customizeTank">Customize</button>
+                    <button class="primary-button" id="equipTank">Equip</button>
+                </div>
+            </section>
+
+            <section class="daily-missions panel">
+                <div class="panel-header">
+                    <h2>Daily Missions</h2>
+                    <div class="refresh-timer">
+                        Refreshes in: <span id="missionTimer">05:32:10</span>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div class="mission-item">
+                        <div class="mission-info">
+                            <h3>Tank Destroyer</h3>
+                            <p>Destroy 15 enemy tanks in any mode</p>
+                        </div>
+                        <div class="mission-progress">
+                            <div class="progress-text">8/15</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 53%;"></div>
+                            </div>
+                        </div>
+                        <div class="mission-reward">
+                            <img src="assets/icons/credits.png" alt="Credits">
+                            <span>1,000</span>
+                        </div>
+                    </div>
+                    <div class="mission-item">
+                        <div class="mission-info">
+                            <h3>Capture Specialist</h3>
+                            <p>Capture 5 control points in multiplayer</p>
+                        </div>
+                        <div class="mission-progress">
+                            <div class="progress-text">2/5</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%;"></div>
+                            </div>
+                        </div>
+                        <div class="mission-reward">
+                            <img src="assets/icons/premium.png" alt="Premium">
+                            <span>25</span>
+                        </div>
+                    </div>
+                    <div class="mission-item completed">
+                        <div class="mission-info">
+                            <h3>Daily Login</h3>
+                            <p>Log in to the game</p>
+                        </div>
+                        <div class="mission-progress">
+                            <div class="progress-text">1/1</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="mission-reward">
+                            <img src="assets/icons/xp.png" alt="XP">
+                            <span>500</span>
+                        </div>
+                        <div class="collected-badge">Collected</div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="secondary-button" id="viewAllMissions">View All Missions</button>
+                </div>
+            </section>
+
+            <section class="battle-stats panel">
+                <div class="panel-header">
+                    <h2>Battle Statistics</h2>
+                    <div class="stat-filters">
+                        <button class="stat-filter active" data-period="day">Day</button>
+                        <button class="stat-filter" data-period="week">Week</button>
+                        <button class="stat-filter" data-period="month">Month</button>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div class="stats-summary">
+                        <div class="stat-card">
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Battles</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">68%</div>
+                            <div class="stat-label">Win Rate</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">3.2</div>
+                            <div class="stat-label">K/D Ratio</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">4,250</div>
+                            <div class="stat-label">Avg. Damage</div>
+                        </div>
+                    </div>
+                    <div class="stats-chart" id="performanceChart">
+                        <!-- Chart will be rendered via JS -->
+                        <img src="assets/images/placeholder-chart.png" alt="Performance Chart" class="placeholder-chart">
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="secondary-button" id="viewDetailedStats">Detailed Statistics</button>
+                </div>
+            </section>
+
+            <section class="news-feed panel">
+                <div class="panel-header">
+                    <h2>News & Updates</h2>
+                </div>
+                <div class="panel-content news-list">
+                    <div class="news-item">
+                        <div class="news-date">JUN 15</div>
+                        <div class="news-content">
+                            <h3>Balance Update 2.3 Now Live</h3>
+                            <p>We've adjusted several tank parameters based on community feedback...</p>
+                        </div>
+                        <div class="news-tag update">Update</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-date">JUN 12</div>
+                        <div class="news-content">
+                            <h3>Weekend Tournament Announced</h3>
+                            <p>Join our weekend tournament for a chance to win exclusive rewards...</p>
+                        </div>
+                        <div class="news-tag event">Event</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-date">JUN 10</div>
+                        <div class="news-content">
+                            <h3>New Map: Arctic Base</h3>
+                            <p>Explore the new Arctic Base map with unique environmental hazards...</p>
+                        </div>
+                        <div class="news-tag content">New Content</div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="secondary-button" id="viewAllNews">View All News</button>
+                </div>
+            </section>
+
+            <section class="friends-activity panel">
+                <div class="panel-header">
+                    <h2>Friends Activity</h2>
+                    <div class="online-count">
+                        <span class="online-indicator"></span>
+                        <span>12 Online</span>
+                    </div>
+                </div>
+                <div class="panel-content friends-list">
+                    <div class="friend-item">
+                        <div class="friend-avatar">
+                            <img src="assets/images/avatars/friend1.png" alt="Friend Avatar">
+                            <span class="status-indicator online"></span>
+                        </div>
+                        <div class="friend-info">
+                            <div class="friend-name">TankMaster445</div>
+                            <div class="friend-activity">Playing: Team Deathmatch</div>
+                        </div>
+                        <div class="friend-actions">
+                            <button class="icon-button">
+                                <img src="assets/icons/join.png" alt="Join">
+                            </button>
+                            <button class="icon-button">
+                                <img src="assets/icons/message.png" alt="Message">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-avatar">
+                            <img src="assets/images/avatars/friend2.png" alt="Friend Avatar">
+                            <span class="status-indicator online"></span>
+                        </div>
+                        <div class="friend-info">
+                            <div class="friend-name">CommanderSarah</div>
+                            <div class="friend-activity">In Garage</div>
+                        </div>
+                        <div class="friend-actions">
+                            <button class="icon-button">
+                                <img src="assets/icons/invite.png" alt="Invite">
+                            </button>
+                            <button class="icon-button">
+                                <img src="assets/icons/message.png" alt="Message">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-avatar">
+                            <img src="assets/images/avatars/friend3.png" alt="Friend Avatar">
+                            <span class="status-indicator away"></span>
+                        </div>
+                        <div class="friend-info">
+                            <div class="friend-name">Artillery_King</div>
+                            <div class="friend-activity">Away (15m)</div>
+                        </div>
+                        <div class="friend-actions">
+                            <button class="icon-button">
+                                <img src="assets/icons/message.png" alt="Message">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="secondary-button" id="inviteFriends">Invite Friends</button>
+                    <button class="secondary-button" id="findPlayers">Find Players</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="assets/images/logo-small.png" alt="Tank Commander">
+            </div>
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="support.html">Support</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-icon">
+                    <img src="assets/icons/social/discord.png" alt="Discord">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="assets/icons/social/twitter.png" alt="Twitter">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="assets/icons/social/youtube.png" alt="YouTube">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="assets/icons/social/facebook.png" alt="Facebook">
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="copyright">© 2023 Tank Commander. All rights reserved.</div>
+            <div class="version">Version 1.2.4</div>
+        </div>
+    </footer>
+
+    <div class="notification-center" id="notificationCenter">
+        <div class="notification-header">
+            <h3>Notifications</h3>
+            <button class="icon-button" id="closeNotifications">
+                <img src="assets/icons/close.png" alt="Close">
+            </button>
+        </div>
+        <div class="notification-list">
+            <div class="notification-item unread">
+                <div class="notification-icon">
+                    <img src="assets/icons/notification/friend.png" alt="Friend Request">
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Friend Request</div>
+                    <div class="notification-message">TankDestroyer99 sent you a friend request</div>
+                    <div class="notification-time">10 minutes ago</div>
+                </div>
+                <div class="notification-actions">
+                    <button class="small-button accept">Accept</button>
+                    <button class="small-button decline">Decline</button>
+                </div>
+            </div>
+            <div class="notification-item unread">
+                <div class="notification-icon">
+                    <img src="assets/icons/notification/reward.png" alt="Reward">
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Daily Reward Collected</div>
+                    <div class="notification-message">You received 500 XP from your daily login reward</div>
+                    <div class="notification-time">25 minutes ago</div>
+                </div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <img src="assets/icons/notification/event.png" alt="Event">
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Event Starting Soon</div>
+                    <div class="notification-message">Weekend Tournament begins in 2 hours</div>
+                    <div class="notification-time">1 hour ago</div>
+                </div>
+                <div class="notification-actions">
+                    <button class="small-button">Details</button>
+                </div>
+            </div>
+        </div>
+        <div class="notification-footer">
+            <button class="secondary-button" id="markAllRead">Mark All as Read</button>
+            <button class="secondary-button" id="notificationSettings">Settings</button>
+        </div>
+    </div>
+</body>
+</html> 

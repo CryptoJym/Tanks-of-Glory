@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tank Commander - Garage</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/garage.css">
+    <script src="js/vendor/three.min.js"></script>
+    <script src="js/tankViewer.js" defer></script>
+    <script src="js/garage.js" defer></script>
+</head>
+<body class="garage-page">
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <img src="assets/images/logo.png" alt="Tank Commander Logo" class="loading-logo">
+            <div class="loading-bar-container">
+                <div class="loading-bar" id="loadingBar"></div>
+            </div>
+            <div class="loading-tip" id="loadingTip">Tip: Different tank classes excel at different roles on the battlefield.</div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="logo-container">
+            <img src="assets/images/logo.png" alt="Tank Commander Logo">
+        </div>
+        <nav class="top-nav">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="dashboard.html">Home</a></li>
+                <li class="nav-item"><a href="play.html">Play</a></li>
+                <li class="nav-item active"><a href="garage.html">Garage</a></li>
+                <li class="nav-item"><a href="profile.html">Profile</a></li>
+                <li class="nav-item"><a href="store.html">Store</a></li>
+                <li class="nav-item"><a href="community.html">Community</a></li>
+                <li class="nav-item"><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+        <div class="user-info">
+            <div class="player-level">
+                <span class="level-number">15</span>
+                <div class="xp-bar">
+                    <div class="xp-fill" style="width: 65%;"></div>
+                </div>
+            </div>
+            <div class="currency-display">
+                <div class="credits">
+                    <img src="assets/icons/credits.png" alt="Credits">
+                    <span>15,450</span>
+                </div>
+                <div class="premium-currency">
+                    <img src="assets/icons/premium.png" alt="Premium">
+                    <span>250</span>
+                </div>
+            </div>
+            <div class="profile-pic">
+                <img src="assets/images/avatars/commander1.png" alt="Player Avatar">
+                <div class="notification-badge">3</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="garage-container">
+        <div class="garage-sidebar">
+            <div class="tank-selector">
+                <h2>My Tanks</h2>
+                <div class="tank-filters">
+                    <button class="tank-filter active" data-filter="all">All</button>
+                    <button class="tank-filter" data-filter="heavy">Heavy</button>
+                    <button class="tank-filter" data-filter="medium">Medium</button>
+                    <button class="tank-filter" data-filter="light">Light</button>
+                    <button class="tank-filter" data-filter="artillery">Artillery</button>
+                </div>
+                <div class="tank-list">
+                    <div class="tank-item active" data-tank-id="tank01">
+                        <div class="tank-thumbnail">
+                            <img src="assets/images/tanks/thumbnails/m1a2.png" alt="M1A2 Abrams">
+                            <span class="tank-class-icon heavy"></span>
+                        </div>
+                        <div class="tank-details">
+                            <div class="tank-name">M1A2 Abrams</div>
+                            <div class="tank-level">Tier VIII</div>
+                        </div>
+                    </div>
+                    <div class="tank-item" data-tank-id="tank02">
+                        <div class="tank-thumbnail">
+                            <img src="assets/images/tanks/thumbnails/t90.png" alt="T-90">
+                            <span class="tank-class-icon heavy"></span>
+                        </div>
+                        <div class="tank-details">
+                            <div class="tank-name">T-90</div>
+                            <div class="tank-level">Tier VIII</div>
+                        </div>
+                    </div>
+                    <div class="tank-item" data-tank-id="tank03">
+                        <div class="tank-thumbnail">
+                            <img src="assets/images/tanks/thumbnails/leopard2.png" alt="Leopard 2">
+                            <span class="tank-class-icon medium"></span>
+                        </div>
+                        <div class="tank-details">
+                            <div class="tank-name">Leopard 2</div>
+                            <div class="tank-level">Tier VII</div>
+                        </div>
+                    </div>
+                    <div class="tank-item" data-tank-id="tank04">
+                        <div class="tank-thumbnail">
+                            <img src="assets/images/tanks/thumbnails/amxLeclerc.png" alt="AMX Leclerc">
+                            <span class="tank-class-icon medium"></span>
+                        </div>
+                        <div class="tank-details">
+                            <div class="tank-name">AMX Leclerc</div>
+                            <div class="tank-level">Tier VII</div>
+                        </div>
+                    </div>
+                    <div class="tank-item" data-tank-id="tank05">
+                        <div class="tank-thumbnail">
+                            <img src="assets/images/tanks/thumbnails/stingray.png" alt="Stingray">
+                            <span class="tank-class-icon light"></span>
+                        </div>
+                        <div class="tank-details">
+                            <div class="tank-name">Stingray</div>
+                            <div class="tank-level">Tier VI</div>
+                        </div>
+                    </div>
+                    <div class="tank-item locked" data-tank-id="tank06">
+                        <div class="tank-thumbnail">
+                            <img src="assets/images/tanks/thumbnails/challenger2.png" alt="Challenger 2">
+                            <span class="tank-class-icon heavy"></span>
+                            <div class="lock-overlay">
+                                <img src="assets/icons/lock.png" alt="Locked">
+                            </div>
+                        </div>
+                        <div class="tank-details">
+                            <div class="tank-name">Challenger 2</div>
+                            <div class="tank-level">Tier IX</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="primary-button" id="viewStoreButton">Get More Tanks</button>
+            </div>
+            <div class="loadout-manager">
+                <h2>Loadouts</h2>
+                <div class="loadout-list">
+                    <div class="loadout-item active">
+                        <span class="loadout-name">Combat</span>
+                        <div class="loadout-actions">
+                            <button class="icon-button small">
+                                <img src="assets/icons/edit.png" alt="Edit">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="loadout-item">
+                        <span class="loadout-name">Assault</span>
+                        <div class="loadout-actions">
+                            <button class="icon-button small">
+                                <img src="assets/icons/edit.png" alt="Edit">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="loadout-item">
+                        <span class="loadout-name">Support</span>
+                        <div class="loadout-actions">
+                            <button class="icon-button small">
+                                <img src="assets/icons/edit.png" alt="Edit">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button class="secondary-button" id="newLoadoutButton">New Loadout</button>
+            </div>
+        </div>
+
+        <div class="garage-main">
+            <div class="tank-viewer-container">
+                <div class="tank-viewer-header">
+                    <h1 class="tank-name">M1A2 Abrams</h1>
+                    <div class="tank-tier">
+                        <span class="tier-label">Tier</span>
+                        <span class="tier-value">VIII</span>
+                    </div>
+                    <div class="tank-class">
+                        <span class="class-icon heavy"></span>
+                        <span class="class-name">Heavy Tank</span>
+                    </div>
+                </div>
+                <div class="tank-3d-viewer" id="tankViewer">
+                    <!-- 3D tank model will render here via Three.js -->
+                </div>
+                <div class="view-controls">
+                    <button class="view-button" data-view="side">Side</button>
+                    <button class="view-button active" data-view="perspective">3D</button>
+                    <button class="view-button" data-view="top">Top</button>
+                    <button class="view-button" data-view="turret">Turret</button>
+                </div>
+                <div class="tank-actions">
+                    <button class="primary-button" id="testDriveButton">Test Drive</button>
+                    <button class="primary-button" id="equipButton">Equip Tank</button>
+                </div>
+            </div>
+
+            <div class="customization-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-button active" data-tab="performance">Performance</button>
+                    <button class="tab-button" data-tab="weaponry">Weaponry</button>
+                    <button class="tab-button" data-tab="defense">Defense</button>
+                    <button class="tab-button" data-tab="appearance">Appearance</button>
+                    <button class="tab-button" data-tab="overview">Overview</button>
+                </div>
+                
+                <!-- Performance Tab -->
+                <div class="tab-content active" id="performanceTab">
+                    <div class="tab-header">
+                        <h2>Performance Upgrades</h2>
+                        <div class="part-filter">
+                            <label for="partFilter">Filter:</label>
+                            <select id="partFilter">
+                                <option value="all">All Parts</option>
+                                <option value="owned">Owned</option>
+                                <option value="available">Available</option>
+                                <option value="locked">Locked</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="parts-grid">
+                        <div class="part-category">
+                            <h3>Engine</h3>
+                            <div class="parts-list">
+                                <div class="part-item equipped">
+                                    <div class="part-image">
+                                        <img src="assets/images/parts/engine-v12.png" alt="AGT-1500 Turbine">
+                                    </div>
+                                    <div class="part-info">
+                                        <div class="part-name">AGT-1500 Turbine</div>
+                                        <div class="part-stats">
+                                            <div class="stat-change positive">
+                                                <span class="stat-icon power"></span>
+                                                <span class="stat-value">+15% Power</span>
+                                            </div>
+                                            <div class="stat-change neutral">
+                                                <span class="stat-icon weight"></span>
+                                                <span class="stat-value">+120kg</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="part-actions">
+                                        <button class="secondary-button" disabled>Equipped</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="part-item">
+                                    <div class="part-image">
+                                        <img src="assets/images/parts/engine-advanced.png" alt="Honeywell AGT-1500C">
+                                    </div>
+                                    <div class="part-info">
+                                        <div class="part-name">Honeywell AGT-1500C</div>
+                                        <div class="part-stats">
+                                            <div class="stat-change positive">
+                                                <span class="stat-icon power"></span>
+                                                <span class="stat-value">+22% Power</span>
+                                            </div>
+                                            <div class="stat-change positive">
+                                                <span class="stat-icon fuel"></span>
+                                                <span class="stat-value">-10% Consumption</span>
+                                            </div>
+                                            <div class="stat-change negative">
+                                                <span class="stat-icon weight"></span>
+                                                <span class="stat-value">+150kg</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="part-actions">
+                                        <div class="part-cost">
+                                            <img src="assets/icons/credits.png" alt="Credits">
+                                            <span>12,500</span>
+                                        </div>
+                                        <button class="primary-button">Install</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="part-item locked">
+                                    <div class="part-image">
+                                        <img src="assets/images/parts/engine-prototype.png" alt="LV200 Advanced Turbine">
+                                        <div class="lock-overlay">
+                                            <img src="assets/icons/lock.png" alt="Locked">
+                                        </div>
+                                    </div>
+                                    <div class="part-info">
+                                        <div class="part-name">LV200 Advanced Turbine</div>
+                                        <div class="part-stats">
+                                            <div class="stat-change positive">
+                                                <span class="stat-icon power"></span>
+                                                <span class="stat-value">+30% Power</span>
+                                            </div>
+                                            <div class="stat-change positive">
+                                                <span class="stat-icon fuel"></span>
+                                                <span class="stat-value">-15% Consumption</span>
+                                            </div>
+                                        </div>
+                                        <div class="unlock-requirement">
+                                            Unlocks at Level 18
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="part-category">
+                            <h3>Tracks</h3>
+                            <div class="parts-list">
+                                <div class="part-item equipped">
+                                    <div class="part-image">
+                                        <img src="assets/images/parts/tracks-standard.png" alt="T158 Tracks">
+                                    </div>
+                                    <div class="part-info">
+                                        <div class="part-name">T158 Tracks</div>
+                                        <div class="part-stats">
+                                            <div class="stat-change neutral">
+                                                <span class="stat-icon handling"></span>
+                                                <span class="stat-value">Standard Handling</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="part-actions">
+                                        <button class="secondary-button" disabled>Equipped</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="part-item">
+                                    <div class="part-image">
+                                        <img src="assets/images/parts/tracks-reinforced.png" alt="T158LL Reinforced">
+                                    </div>
+                                    <div class="part-info">
+                                        <div class="part-name">T158LL Reinforced</div>
+                                        <div class="part-stats">
+                                            <div class="stat-change positive">
+                                                <span class="stat-icon armor"></span>
+                                                <span class="stat-value">+15% Track Durability</span>
+                                            </div>
+                                            <div class="stat-change negative">
+                                                <span class="stat-icon speed"></span>
+                                                <span class="stat-value">-5% Top Speed</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="part-actions">
+                                        <div class="part-cost">
+                                            <img src="assets/icons/credits.png" alt="Credits">
+                                            <span>8,750</span>
+                                        </div>
+                                        <button class="primary-button">Install</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="part-category">
+                            <h3>Transmission</h3>
+                            <div class="parts-list">
+                                <div class="part-item equipped">
+                                    <div class="part-image">
+                                        <img src="assets/images/parts/transmission-standard.png" alt="Allison X1100-3B">
+                                    </div>
+                                    <div class="part-info">
+                                        <div class="part-name">Allison X1100-3B</div>
+                                        <div class="part-stats">
+                                            <div class="stat-change neutral">
+                                                <span class="stat-icon handling"></span>
+                                                <span class="stat-value">Standard Handling</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="part-actions">
+                                        <button class="secondary-button" disabled>Equipped</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="part-item">
+                                    <div class="part-image">
+                                        <img src="assets/images/parts/transmission-advanced.png" alt="X1100-4B Enhanced">
+                                    </div>
+                                    <div class="part-info">
+                                        <div class="part-name">X1100-4B Enhanced</div>
+                                        <div class="part-stats">
+                                            <div class="stat-change positive">
+                                                <span class="stat-icon handling"></span>
+                                                <span class="stat-value">+12% Traverse Speed</span>
+                                            </div>
+                                            <div class="stat-change positive">
+                                                <span class="stat-icon acceleration"></span>
+                                                <span class="stat-value">+8% Acceleration</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="part-actions">
+                                        <div class="part-cost">
+                                            <img src="assets/icons/credits.png" alt="Credits">
+                                            <span>10,200</span>
+                                        </div>
+                                        <button class="primary-button">Install</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Other tabs would be similar structure but different content -->
+                <div class="tab-content" id="weaponryTab">
+                    <!-- Weaponry tab content -->
+                    <div class="tab-placeholder">Weaponry Customization Content</div>
+                </div>
+                
+                <div class="tab-content" id="defenseTab">
+                    <!-- Defense tab content -->
+                    <div class="tab-placeholder">Defense Customization Content</div>
+                </div>
+                
+                <div class="tab-content" id="appearanceTab">
+                    <!-- Appearance tab content -->
+                    <div class="tab-placeholder">Appearance Customization Content</div>
+                </div>
+                
+                <div class="tab-content" id="overviewTab">
+                    <!-- Overview tab content -->
+                    <div class="tab-placeholder">Tank Overview and Stats</div>
+                </div>
+            </div>
+            
+            <div class="performance-summary">
+                <h2>Current Performance</h2>
+                <div class="performance-stats">
+                    <div class="stat-group">
+                        <div class="stat-item">
+                            <div class="stat-label">Top Speed</div>
+                            <div class="stat-value">67 km/h</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Acceleration</div>
+                            <div class="stat-value">0-32 km/h: 7.2s</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Hull Traverse</div>
+                            <div class="stat-value">25°/s</div>
+                        </div>
+                    </div>
+                    <div class="stat-group">
+                        <div class="stat-item">
+                            <div class="stat-label">Weight</div>
+                            <div class="stat-value">61.4 tons</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Engine Power</div>
+                            <div class="stat-value">1,500 hp</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Power-to-Weight</div>
+                            <div class="stat-value">24.4 hp/ton</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="assets/images/logo-small.png" alt="Tank Commander">
+            </div>
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="support.html">Support</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-icon">
+                    <img src="assets/icons/social/discord.png" alt="Discord">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="assets/icons/social/twitter.png" alt="Twitter">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="assets/icons/social/youtube.png" alt="YouTube">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="assets/icons/social/facebook.png" alt="Facebook">
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="copyright">© 2023 Tank Commander. All rights reserved.</div>
+            <div class="version">Version 1.2.4</div>
+        </div>
+    </footer>
+</body>
+</html> 
